@@ -4,13 +4,15 @@ class TodoPage {
   todoInput;
   todoButton;
   todoItem;
-  BASE_URL = "http://localhost:3001";
+  deleteButton;
+  BASE_URL = "http://localhost:3000";
   constructor({ page }) {
     this.page = page;
     this.homepageElement = page.locator(".borderTodo");
     this.todoInput = page.locator(".todo-input");
     this.todoButton = page.locator(".todo-button");
     this.todoItem = page.locator(".todo .todo-item");
+    this.deleteButton = page.getByRole("button", { name: "\uf1f8" });
   }
 
   async navigate() {
@@ -29,6 +31,20 @@ class TodoPage {
 
   async getItem() {
     return await this.todoItem.innerText();
+  }
+
+  async getAllItems() {
+    return await this.todoItem.allTextContents();
+  }
+
+  async deleteItem() {
+    return await this.deleteButton.click();
+  }
+
+  async deleteAllItems() {
+    while ((await this.deleteButton.count()) > 0) {
+      await this.deleteButton.first().click();
+    }
   }
 }
 
